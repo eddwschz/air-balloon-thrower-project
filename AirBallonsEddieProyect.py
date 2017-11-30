@@ -7,7 +7,6 @@ import random
 import bezierCurve as bC
 
 name = 'glut'
-angulo = 0.0
 
 #PERSPECTIVE
 eye = [00.0, 00.0, 500.0]
