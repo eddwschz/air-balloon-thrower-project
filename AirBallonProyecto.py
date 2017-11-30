@@ -174,9 +174,9 @@ def display():
  
     glPushMatrix()
     if curvesBezier[index_curve].curvasPoints[index_point_curve].z<0:
-        glTranslatef(55.0,-300.0,0.0)
+        glTranslatef(55.0,-300.0,-100.0)
     else:
-        glTranslatef(55.0,-300.0,200.0)
+        glTranslatef(55.0,-300.0,100.0)
     glScalef(70.0, 70.0, 70.0)
     mountainW()
     glPopMatrix()
