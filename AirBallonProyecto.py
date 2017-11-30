@@ -49,13 +49,13 @@ curvesBezier = []
 print("CURVE A COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(0.0,-0.0,0.0),50.0,50.0,0.0,0.1))
 print("CURVE B COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[0].controlPoints[8].x,0.0,curvesBezier[0].controlPoints[8].z),0.0,50.0,-50.0,0.1))
+curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[0].controlPoints[8].x,0.0,curvesBezier[0].controlPoints[8].z),0.0,50.0,-100.0,0.1))
 print("CURVE C COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[1].controlPoints[8].x,0.0,curvesBezier[1].controlPoints[8].z),-50.0,50.0,0.0, 0.1))
 print("CURVE D COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[2].controlPoints[8].x,0.0,curvesBezier[2].controlPoints[8].z),-50.0,50.0,0.0, 0.1))
 print("CURVE E COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[3].controlPoints[8].x,0.0,curvesBezier[3].controlPoints[8].z),0.0,50.0,50.0, 0.1)) 
+curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[3].controlPoints[8].x,0.0,curvesBezier[3].controlPoints[8].z),0.0,50.0,100.0, 0.1)) 
 print("CURVE F COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[4].controlPoints[8].x,0.0,curvesBezier[4].controlPoints[8].z),50.0,50.0,0.0,0.1))
 
@@ -84,7 +84,7 @@ def listObjects():
     for o in mountainOBJ.objetos:
         for c in o.caras:
             #glColor3f(0.184, 0.107, 0.043)
-            glColor3f(random.uniform(0,1), random.uniform(0,1), random.uniform(0,1))
+            glColor3f(random.uniform(0,0.55), random.uniform(0,0.28), random.uniform(0,0.19))
             glVertex3f(c.vertices[0].x,c.vertices[0].y, c.vertices[0].z)
             glVertex3f(c.vertices[1].x,c.vertices[1].y, c.vertices[1].z)
             glVertex3f(c.vertices[2].x,c.vertices[2].y, c.vertices[2].z)
@@ -167,16 +167,19 @@ def display():
         glScalef(curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0, curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0, curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0)
         print("Llega hasta " + str(curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0))
     else:
-       glScalef(10.0,10.0,10.0) 
-        
+       glScalef(10.0,10.0,10.0)   
     airBallon()
 
     glPopMatrix()
  
-    glTranslatef(0.0,0.0,0)
-    glScalef(100.0, 100.0, 100.0)
+    glPushMatrix()
+    if curvesBezier[index_curve].curvasPoints[index_point_curve].z<0:
+        glTranslatef(55.0,-300.0,0.0)
+    else:
+        glTranslatef(55.0,-300.0,200.0)
+    glScalef(70.0, 70.0, 70.0)
     mountainW()
-    
+    glPopMatrix()
 
     print("DRAW")
 
