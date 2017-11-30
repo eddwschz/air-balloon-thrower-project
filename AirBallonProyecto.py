@@ -10,7 +10,7 @@ name = 'glut'
 angulo = 0.0
 
 #PERSPECTIVE
-eye = [0.0, 0.0, 300.0]
+eye = [00.0, 00.0, 500.0]
 camera = [0.0, 1.0, 0.0]
 
 #LIGTH
@@ -42,7 +42,9 @@ index_curve = 0
 index_point_curve = 0
 
 #ANGLE CAMARA
-angleCam = 0.0
+angleCamX = 0.0
+angleCamY = 0.0
+angleCamZ = 0.0
 
 #VARIABLES X Y Z
 xV = 0.0
@@ -162,7 +164,9 @@ def display():
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     gluLookAt(eye[0], eye[1], eye[2], camera[0],camera[1], camera[2], 0.0, 1.0, 0.0)
-    glRotated(angleCam,0.0,1.0,0.0)
+    glRotated(angleCamY,0.0,1.0,0.0)
+    glRotated(angleCamX,1.0,0.0,0.0)
+    glRotated(angleCamZ,0.0,0.0,1.0)
     #print("Estoy en " + " | "+ str(xV) + " | " + str(yV) + " | "+ str(zV) )
 
     glPushMatrix()
@@ -190,17 +194,30 @@ def display():
 
 
 def keyboard(key, x, y):
-    global angleCam
+    global angleCamX
+    global angleCamY
+    global angleCamZ
 
     if ord(key) == 27:
         sys.exit(0)
 
     if ord(key) == 65 or ord(key) == 97:
-        angleCam=angleCam + (1.0 if angleCam < 360.0 else 0)
+        angleCamY=angleCamY + (1.0 if angleCamY < 360.0 else 0)
 
-    if ord(key) == 115 or ord(key) == 183:
-        angleCam=angleCam - (1.0 if angleCam < 0.0 else 360.0)
+    if ord(key) == 68 or ord(key) == 100:
+        angleCamY=angleCamY - (1.0 if angleCamY < 0.0 else 360.0)
 
+    if ord(key) == 87 or ord(key) == 119:
+        angleCamX=angleCamX + (1.0 if angleCamX < 360.0 else 0)
+
+    if ord(key) == 83 or ord(key) == 115:
+        angleCamX=angleCamX - (1.0 if angleCamX < 0.0 else 360.0)
+
+    if ord(key) == 90 or ord(key) == 122:
+        angleCamZ=angleCamZ + (1.0 if angleCamZ < 360.0 else 0)
+
+    if ord(key) == 88 or ord(key) == 120:
+        angleCamZ=angleCamZ - (1.0 if angleCamZ < 0.0 else 360.0)
 
 def movement(value):
     global xV
