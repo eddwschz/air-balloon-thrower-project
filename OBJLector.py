@@ -91,8 +91,10 @@ class OBJLoader():
                         self.objetos.append(Objeto(caras,nombre))
                         caras=[]
                         bandObj=False
+                        nombre=""
                     else:
                         bandObj = True
+                        name = elements[1]
 
                 elif elements[0]=='v':
                     vertices.append(Vertice(float(elements[1]),float(elements[2]),float(elements[3])))

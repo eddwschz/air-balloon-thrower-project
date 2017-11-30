@@ -22,13 +22,15 @@ light_position = [1.0, 0.0, 0.0, 1.0]
 mat_diffuse = [0.8, 0.8, 0.8, 1.0]
 
 #TIMER
-timer_secs = 100
+timer_secs = 70
 
 #LIST AIRBALLON GL
 air_ballon = None
 mountain = None
 
-angle = 0.0
+#SCALE BALLON Z
+zScale = 0.0
+zValueScale = 20.0
 
 #OBJ AIR BALLON
 air_ballonOBJ = lobj.OBJLoader("AirBallonsEddie.obj")
@@ -46,17 +48,17 @@ zV = 0.0
 
 #CURVES
 curvesBezier = []
-print("CURVE A COORDS")
+#print("CURVE A COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(0.0,-0.0,0.0),50.0,50.0,0.0,0.1))
-print("CURVE B COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[0].controlPoints[8].x,0.0,curvesBezier[0].controlPoints[8].z),0.0,50.0,-100.0,0.1))
-print("CURVE C COORDS")
+#print("CURVE B COORDS")
+curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[0].controlPoints[8].x,0.0,curvesBezier[0].controlPoints[8].z),0.0,50.0,-400.0,0.1))
+#print("CURVE C COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[1].controlPoints[8].x,0.0,curvesBezier[1].controlPoints[8].z),-50.0,50.0,0.0, 0.1))
-print("CURVE D COORDS")
+#print("CURVE D COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[2].controlPoints[8].x,0.0,curvesBezier[2].controlPoints[8].z),-50.0,50.0,0.0, 0.1))
-print("CURVE E COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[3].controlPoints[8].x,0.0,curvesBezier[3].controlPoints[8].z),0.0,50.0,100.0, 0.1)) 
-print("CURVE F COORDS")
+#print("CURVE E COORDS")
+curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[3].controlPoints[8].x,0.0,curvesBezier[3].controlPoints[8].z),0.0,50.0,400.0, 0.1)) 
+#print("CURVE F COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[4].controlPoints[8].x,0.0,curvesBezier[4].controlPoints[8].z),50.0,50.0,0.0,0.1))
 
 def listObjects():
@@ -68,7 +70,12 @@ def listObjects():
     glBegin(GL_TRIANGLES) 
     for o in air_ballonOBJ.objetos:
         for c in o.caras:
-            glColor3f(random.uniform(0,1), random.uniform(0,1), random.uniform(0,1))
+            if o.nombre=="Ballon_Cylinder.002":
+                glColor3f(1.0, random.uniform(0,0.031), random.uniform(0,0.29))
+            elif o.nombre=="Box_Cube.003":
+                glColor3f(random.uniform(0,0.24), random.uniform(0,0.25), random.uniform(0,0.58))
+            else:
+                glColor3f(0.0, random.uniform(0,0.55), 1.0)
             glVertex3f(c.vertices[0].x,c.vertices[0].y, c.vertices[0].z)
             glVertex3f(c.vertices[1].x,c.vertices[1].y, c.vertices[1].z)
             glVertex3f(c.vertices[2].x,c.vertices[2].y, c.vertices[2].z)
@@ -103,7 +110,7 @@ def mountainW():
 def main():
     glutInit(sys.argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
-    glutInitWindowSize(1000, 800)
+    glutInitWindowSize(1000, 700)
     glutInitWindowPosition(0, 0)
     glutCreateWindow("Air Balloon Thrower")
 
@@ -147,41 +154,33 @@ def reshape(w, h):
 
 
 def display():
-    #	reshape(300, 300)
-    #global angle
-    global xV
-    global yV
-    global zV
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     gluLookAt(eye[0], eye[1], eye[2], camera[0],camera[1], camera[2], 0.0, 1.0, 0.0)
+    #glRotate(0, 0.0, 1.0, 0.0)
 
     glPushMatrix()
-
-    #glRotatef(angle, 0.0, 1.0, 0.0)
     glTranslatef(xV, yV, zV)
-    if curvesBezier[index_curve].curvasPoints[index_point_curve].z<0:
-        glScalef(curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0, curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0, curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0)
-        print("Llega hasta " + str(curvesBezier[index_curve].curvasPoints[index_point_curve].z*-0.5/10.0))
-    else:
-       glScalef(10.0,10.0,10.0)   
+    if index_curve==0 or index_curve==5:
+        glScalef(20.0, 20.0, 20.0)
+    elif index_curve==2 or index_curve==3:
+        glScalef(5.0, 5.0, 5.0)
+    elif index_curve==1:
+        glScalef(zValueScale, zValueScale, zValueScale)
+    elif index_curve==4:
+        glScalef(zValueScale, zValueScale, zValueScale)
     airBallon()
-
     glPopMatrix()
- 
+
+
     glPushMatrix()
-    if curvesBezier[index_curve].curvasPoints[index_point_curve].z<0:
-        glTranslatef(55.0,-300.0,-100.0)
-    else:
-        glTranslatef(55.0,-300.0,100.0)
-    glScalef(70.0, 70.0, 70.0)
+    glTranslatef(80.0,-400.0,0.0)
+    glScalef(80.0, 80.0, 80.0)
     mountainW()
     glPopMatrix()
-
-    print("DRAW")
 
     glFlush()
     glutSwapBuffers()
@@ -198,6 +197,8 @@ def movement(value):
     global index_curve
     global index_point_curve
     global curvesBezier
+    global zValueScale
+
     glutTimerFunc(timer_secs, movement, 0)
 
     if index_point_curve<10:
@@ -213,8 +214,14 @@ def movement(value):
     yV = curvesBezier[index_curve].curvasPoints[index_point_curve].y
     zV = curvesBezier[index_curve].curvasPoints[index_point_curve].z
 
-    print("In the curve " + str(index_curve) + " in the point of curve " + str(index_point_curve))
-    print(" X: " + str(xV) + " " + " Y: " + str(yV) + " Z: " + str(zV))
+    if index_curve==1:
+        zValueScale=zValueScale-2
+    elif index_curve==4:
+        zValueScale=zValueScale+2
+    #print(str(zValueScale))
+
+    #print("In the curve " + str(index_curve) + " in the point of curve " + str(index_point_curve))
+    #print(" X: " + str(xV) + " " + " Y: " + str(yV) + " Z: " + str(zV))
 
     glutPostRedisplay()
 
