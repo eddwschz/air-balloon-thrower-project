@@ -181,7 +181,7 @@ def display():
 
     #glPushMatrix()
     glTranslatef(80.0,-400.0,0.0)
-    glScalef(100.0, 100.0, 100.0)
+    glScalef(90.0, 90.0, 90.0)
     mountainW()
     #glPopMatrix()
 
