@@ -160,7 +160,7 @@ def display():
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     gluLookAt(eye[0], eye[1], eye[2], camera[0],camera[1], camera[2], 0.0, 1.0, 0.0)
-    #glRotate(0, 0.0, 1.0, 0.0)
+
 
     glPushMatrix()
     glTranslatef(xV, yV, zV)
@@ -223,7 +223,9 @@ def movement(value):
     #print("In the curve " + str(index_curve) + " in the point of curve " + str(index_point_curve))
     #print(" X: " + str(xV) + " " + " Y: " + str(yV) + " Z: " + str(zV))
 
+
     glutPostRedisplay()
+
 
 if __name__ == '__main__':
     main()
