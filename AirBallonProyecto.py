@@ -11,7 +11,7 @@ angulo = 0.0
 
 #PERSPECTIVE
 eye = [0.0, 0.0, 300.0]
-camera = [0.0, 0.0, 0.0]
+camera = [0.0, 1.0, 0.0]
 
 #LIGTH
 light_ambient = [1.0, 1.0, 1.0, 1.0]
@@ -41,6 +41,9 @@ index_curve = 0
 #INDEX OF POINT IN A CURVE BEZIER
 index_point_curve = 0
 
+#ANGLE CAMARA
+angleCam = 0.0
+
 #VARIABLES X Y Z
 xV = 0.0
 yV = 0.0
@@ -49,15 +52,15 @@ zV = 0.0
 #CURVES
 curvesBezier = []
 #print("CURVE A COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(0.0,-0.0,0.0),50.0,50.0,0.0,0.1))
+curvesBezier.append(bC.BezierCurve(bC.Vertice(0.0,0.0,250.0),50.0,50.0,0.0,0.1))
 #print("CURVE B COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[0].controlPoints[8].x,0.0,curvesBezier[0].controlPoints[8].z),0.0,50.0,-400.0,0.1))
+curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[0].controlPoints[8].x,0.0,curvesBezier[0].controlPoints[8].z),0.0,50.0,-50.0,0.1))
 #print("CURVE C COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[1].controlPoints[8].x,0.0,curvesBezier[1].controlPoints[8].z),-50.0,50.0,0.0, 0.1))
 #print("CURVE D COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[2].controlPoints[8].x,0.0,curvesBezier[2].controlPoints[8].z),-50.0,50.0,0.0, 0.1))
 #print("CURVE E COORDS")
-curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[3].controlPoints[8].x,0.0,curvesBezier[3].controlPoints[8].z),0.0,50.0,400.0, 0.1)) 
+curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[3].controlPoints[8].x,0.0,curvesBezier[3].controlPoints[8].z),0.0,50.0,50.0, 0.1)) 
 #print("CURVE F COORDS")
 curvesBezier.append(bC.BezierCurve(bC.Vertice(curvesBezier[4].controlPoints[8].x,0.0,curvesBezier[4].controlPoints[8].z),50.0,50.0,0.0,0.1))
 
@@ -154,13 +157,13 @@ def reshape(w, h):
 
 
 def display():
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
+    global angle
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) 
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     gluLookAt(eye[0], eye[1], eye[2], camera[0],camera[1], camera[2], 0.0, 1.0, 0.0)
-
+    glRotated(angleCam,0.0,1.0,0.0)
+    #print("Estoy en " + " | "+ str(xV) + " | " + str(yV) + " | "+ str(zV) )
 
     glPushMatrix()
     glTranslatef(xV, yV, zV)
@@ -176,28 +179,38 @@ def display():
     glPopMatrix()
 
 
-    glPushMatrix()
+    #glPushMatrix()
     glTranslatef(80.0,-400.0,0.0)
-    glScalef(80.0, 80.0, 80.0)
+    glScalef(100.0, 100.0, 100.0)
     mountainW()
-    glPopMatrix()
+    #glPopMatrix()
 
     glFlush()
     glutSwapBuffers()
 
 
 def keyboard(key, x, y):
+    global angleCam
+
     if ord(key) == 27:
         sys.exit(0)
+
+    if ord(key) == 65 or ord(key) == 97:
+        angleCam=angleCam + (1.0 if angleCam < 360.0 else 0)
+
+    if ord(key) == 115 or ord(key) == 183:
+        angleCam=angleCam - (1.0 if angleCam < 0.0 else 360.0)
+
 
 def movement(value):
     global xV
     global yV
-    global zY
+    global zV
     global index_curve
     global index_point_curve
     global curvesBezier
     global zValueScale
+    global angle 
 
     glutTimerFunc(timer_secs, movement, 0)
 
@@ -213,6 +226,7 @@ def movement(value):
     xV = curvesBezier[index_curve].curvasPoints[index_point_curve].x
     yV = curvesBezier[index_curve].curvasPoints[index_point_curve].y
     zV = curvesBezier[index_curve].curvasPoints[index_point_curve].z
+    #print("En movement zV: " +str(zV))
 
     if index_curve==1:
         zValueScale=zValueScale-2
@@ -222,7 +236,6 @@ def movement(value):
 
     #print("In the curve " + str(index_curve) + " in the point of curve " + str(index_point_curve))
     #print(" X: " + str(xV) + " " + " Y: " + str(yV) + " Z: " + str(zV))
-
 
     glutPostRedisplay()
 

@@ -50,9 +50,9 @@ class BezierCurve():
             j=j+1
 
     def pointsOnCurveBezier(self,t):
-        rX = ((1-t)**3)*self.controlPoints[0].x + 3*t*((1-t)**2)*self.controlPoints[2].x + 3*(t**2)*(1-t)*self.controlPoints[4].x + (t**3)*self.controlPoints[8].x
-        rY = ((1-t)**3)*self.controlPoints[0].y + 3*t*((1-t)**2)*self.controlPoints[2].y + 3*(t**2)*(1-t)*self.controlPoints[4].y + (t**3)*self.controlPoints[8].y
-        rZ = ((1-t)**3)*self.controlPoints[0].z + 3*t*((1-t)**2)*self.controlPoints[2].z + 3*(t**2)*(1-t)*self.controlPoints[4].z + (t**3)*self.controlPoints[8].z
+        rX = ((1-t)**3)*self.controlPoints[0].x + 3*t*((1-t)**2)*self.controlPoints[2].x + 3*(t**2)*(1-t)*self.controlPoints[6].x + (t**3)*self.controlPoints[8].x
+        rY = ((1-t)**3)*self.controlPoints[0].y + 3*t*((1-t)**2)*self.controlPoints[2].y + 3*(t**2)*(1-t)*self.controlPoints[6].y + (t**3)*self.controlPoints[8].y
+        rZ = ((1-t)**3)*self.controlPoints[0].z + 3*t*((1-t)**2)*self.controlPoints[2].z + 3*(t**2)*(1-t)*self.controlPoints[6].z + (t**3)*self.controlPoints[8].z
         #print("     X: " + str(rX) + " Y: " + str(rY) + " Z: " + str(rZ))
         self.curvasPoints.append(Vertice(rX,rY,rZ))
 
